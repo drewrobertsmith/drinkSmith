@@ -1,21 +1,17 @@
-import { StyleSheet, Text, View } from 'react-native';
-
-import { StatusBar } from 'expo-status-bar';
+import DrinksScreen from "./src/features/drinks/screens/drinks.screen";
+import { PaperProvider } from "react-native-paper";
+import { SafeArea } from "./src/components/utility/safe-area.component";
+import { StatusBar } from "expo-status-bar";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>DrinkSmith!</Text>
+    <>
       <StatusBar style="auto" />
-    </View>
+      <PaperProvider>
+        <SafeArea>
+          <DrinksScreen />
+        </SafeArea>
+      </PaperProvider>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
