@@ -10,7 +10,7 @@ export default function DrinkCard({ drink }) {
         padding: 4,
       }}
     >
-      <Card.Cover source={drink.image} />
+      <Card.Cover source={{uri: drink.image}} />
       <Card.Title
         title={drink.name}
         titleVariant="titleMedium"
