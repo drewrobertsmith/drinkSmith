@@ -10,11 +10,10 @@ export default function DrinksNavigator() {
     <DrinksStack.Navigator
       screenOptions={{
         headerShown: false,
-        presentation: "containedModal",
       }}
     >
       <DrinksStack.Screen name="Drinks List" component={DrinksScreen} />
-      <DrinksStack.Screen name="Favorites" component={DrinkDetail} />
+      <DrinksStack.Screen name="Drink Details" component={DrinkDetail}/>
     </DrinksStack.Navigator>
   );
 }

@@ -2,7 +2,7 @@ import { Button, Card } from "react-native-paper";
 
 import React from "react";
 
-export default function DrinkCard({ drink }) {
+export default function DrinkCard({ item }) {
   return (
     <Card
       mode="contained"
@@ -10,14 +10,14 @@ export default function DrinkCard({ drink }) {
         padding: 4,
       }}
     >
-      <Card.Cover source={{uri: drink.image}} />
+      <Card.Cover source={{uri: item.image}} />
       <Card.Title
-        title={drink.name}
+        title={item.name}
         titleVariant="titleMedium"
-        subtitle={drink.shortDescription}
+        subtitle={item.shortDescription}
       />
       <Card.Actions>
-        <Button>{drink.baseSpirit}</Button>
+        <Button>{item.baseSpirit}</Button>
       </Card.Actions>
     </Card>
   );
