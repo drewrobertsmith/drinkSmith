@@ -1,32 +1,62 @@
-import "react-native-url-polyfill/auto";
-
-import { FlatList, StyleSheet, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 
 import DrinkCard from "../components/drink-card.component";
-import { createClient } from "@supabase/supabase-js";
-
-const URL = "https://btdwijqlskntdigvjhlp.supabase.co";
-const KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0ZHdpanFsc2tudGRpZ3ZqaGxwIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTg4ODg5MzIsImV4cCI6MjAxNDQ2NDkzMn0.EWtTO3qAZCftNXZ7LGYSVoed8RN4eb7vqvWuVEaipLQ";
-
-const supabase = createClient(URL, KEY, {
-  detectSessionInUrl: false,
-});
+import { Search } from "../components/search.component";
+import { getDrinksData } from "../../../services/drinks/drinks.service";
 
 export default function DrinksScreen({ navigation }) {
   const [drinksDATA, setDrinksDATA] = useState([]);
+  const [fullDATA, setfullDATA] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    getDrinksData();
+    setIsLoading(true);
+    fetchDrinksData();
   }, []);
 
-  async function getDrinksData() {
-    const { data } = await supabase.from("Drinks").select();
-    setDrinksDATA(data);
+  async function fetchDrinksData() {
+    try {
+      const data = await getDrinksData();
+      setDrinksDATA(data);
+      setfullDATA(data);
+    } catch (error) {
+      setError(error.message);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
   }
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
+  if (error) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text>Error fetching data: {error}</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={{ flex: 1 }}>
+      <Search 
+        fullDATA={fullDATA}
+        setDrinksDATA={setDrinksDATA}
+      />
       <FlatList
         data={drinksDATA}
         renderItem={({ item }) => {
